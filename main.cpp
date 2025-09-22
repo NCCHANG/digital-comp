@@ -21,6 +21,7 @@ class Location {
         std::string getAddress() const { return address; }
         double getLatitude() const { return latitude; }
         double getLongitude() const { return longitude; }
+        double getPrice() const { return price; }
 
         void display() const {
             std::cout << "Latitude: " << latitude << ", Longitude: " << longitude << std::endl;
@@ -93,8 +94,8 @@ int main() {
 
         std::cout << std::endl;
 
+        int counter = 1;
         for (const Location& court : badmintonCourts) {
-            int counter = 1;
             double distance = haversine(lat, lon, court.getLatitude(), court.getLongitude());
             std::cout << counter <<") Distance to court "<< court.getAddress() <<" : " << distance << " km" << std::endl;
             if (distance < minDistance) {
@@ -102,12 +103,14 @@ int main() {
                 minDistance = distance;
                 nearestCourt = court;
             }
+            counter++;
         }
-        std::cout << nearestCourtCounter <<"\nNearest court is at: " << nearestCourt.getAddress() << " which is " << minDistance << " km away." << std::endl;
+        std::cout << '\n' << nearestCourtCounter <<") Nearest court is at: " << nearestCourt.getAddress() << " which is " << minDistance << " km away." << std::endl;
         std::cout << "----------------------------------------" << std::endl;
 
         char choice;
         int courtChoice;
+        int hours;
         std::cout << "Would you like to book a court? (y/n): ";
         std::cin >> choice;
         if (!(choice == 'y' || choice == 'Y')) {
@@ -115,7 +118,20 @@ int main() {
             continue;
         }
         std::cout << "Choose which court to book (1-" << badmintonCourts.size() << "): ";
-        
+        std::cin >> courtChoice;
+        if(std::cin.fail() || courtChoice < 1 || courtChoice > badmintonCourts.size()) {
+            std::cout << "Invalid choice. Returning to main menu." << std::endl;
+            continue;
+        }
+        std::cout << "How many hours would you like to book? ";
+        std::cin >> hours;
+        if(std::cin.fail() || hours <= 0) {
+            std::cout << "Invalid number of hours. Returning to main menu." << std::endl;
+            continue;
+        }
+        double totalCost = badmintonCourts[courtChoice - 1].getPrice() * hours;
+        std::cout << "You have booked the court at " << badmintonCourts[courtChoice - 1].getAddress() 
+                  << " for " << hours << " hours. Total cost will be RM" << totalCost << std::endl;
     }
     return 0;
 }
