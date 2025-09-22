@@ -13,6 +13,9 @@ class Location {
     Location(double latitude, double longitude)
         : address("Unknown"), latitude(latitude), longitude(longitude) {}
 
+    double getLatitude() const { return latitude; }
+    double getLongitude() const { return longitude; }
+
     void display() const {
         std::cout << "Latitude: " << latitude << ", Longitude: " << longitude << std::endl;
     }
@@ -21,7 +24,7 @@ class Location {
 // Function to calculate the distance between two points using the Haversine formula
 double haversine(double lat1, double lon1, double lat2, double lon2) {
     const double EARTH_RADIUS_KM = 6371.0;
-    
+
     // Convert latitudes and longitudes from degrees to radians
     double radLat1 = toRadians(lat1);
     double radLon1 = toRadians(lon1);
@@ -73,8 +76,11 @@ int main() {
             break;
         }
 
-        Location loc(lat, lon);
-        loc.display();
+        // for (const Location& court : badmintonCourts) {
+        //     court.display();
+        //     double distance = haversine(lat, lon, court.latitude, court.longitude);
+        //     std::cout << "Distance to court: " << distance << " km" << std::endl;
+        // }
     }
     return 0;
 }
