@@ -8,6 +8,7 @@ class Location {
     double latitude;
     double longitude;
     public:
+    Location() : address("Unknown"), latitude(0.0), longitude(0.0) {}
     Location(std::string address, double latitude, double longitude)
         : address(address), latitude(latitude), longitude(longitude) {}
     Location(double latitude, double longitude)
@@ -70,6 +71,7 @@ int main() {
 
     while (programRunning) {
         double lat, lon;
+        Location nearestCourt;
         std::cout << "Enter latitude and longitude (or 'q' to quit): ";
         std::cin >> lat >> lon;
 
@@ -77,7 +79,7 @@ int main() {
             programRunning = false;
             break;
         }
-        
+
         std::cout << std::endl;
 
         for (const Location& court : badmintonCourts) {
