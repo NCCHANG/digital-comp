@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 class Location {
     private:
@@ -17,8 +18,40 @@ class Location {
     }
 };
 
+// Function to calculate the distance between two points using the Haversine formula
+double haversine(double lat1, double lon1, double lat2, double lon2) {
+    const double EARTH_RADIUS_KM = 6371.0;
+    
+    // Convert latitudes and longitudes from degrees to radians
+    double radLat1 = toRadians(lat1);
+    double radLon1 = toRadians(lon1);
+    double radLat2 = toRadians(lat2);
+    double radLon2 = toRadians(lon2);
+
+    // Calculate the difference in latitudes and longitudes
+    double dLat = radLat2 - radLat1;
+    double dLon = radLon2 - radLon1;
+
+    // Apply the Haversine formula
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+               cos(radLat1) * cos(radLat2) *
+               sin(dLon / 2) * sin(dLon / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    double distance = EARTH_RADIUS_KM * c;
+
+    return distance;
+}
+
+double toRadians(double degree) {
+    return degree * M_PI / 180.0;
+}
+
+
+
 int main() {
     bool programRunning = true;
+
+    // Can integrate with Google Maps API to fetch real-time data in the future
     std::vector<Location> badmintonCourts = {
         Location("Persiaran Multimedia, 63100 Cyberjaya, Selangor",2.9272342240047107, 101.64309256580782), // MMU Court
         Location("Lot 5225, 4, Jalan Puchong Utama 7e, Taman Puchong Utama, 47100 Puchong, Selangor", 2.989928867751879, 101.61626328392457),  // KSL Court Puchong
@@ -29,6 +62,7 @@ int main() {
         Location("Lot 1617, Jalan Genting Kelang, Taman Danau Kota, 53100 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur", 3.203099333012631, 101.71846148664879), // Danau Kota Court
         Location("Level 5, Mines 2, Jalan Mines 2, Mines Wellness City, 43300 Seri Kembangan, Selangor", 3.028749587275076, 101.71527007859078) // Mines Court
     };
+
     while (programRunning) {
         double lat, lon;
         std::cout << "Enter latitude and longitude (or 'q' to quit): ";
