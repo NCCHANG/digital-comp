@@ -22,6 +22,10 @@ class Location {
     }
 };
 
+double toRadians(double degree) {
+    return degree * M_PI / 180.0;
+}
+
 // Function to calculate the distance between two points using the Haversine formula
 double haversine(double lat1, double lon1, double lat2, double lon2) {
     const double EARTH_RADIUS_KM = 6371.0;
@@ -46,9 +50,6 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
     return distance;
 }
 
-double toRadians(double degree) {
-    return degree * M_PI / 180.0;
-}
 
 
 
@@ -76,12 +77,13 @@ int main() {
             programRunning = false;
             break;
         }
+        
+        std::cout << std::endl;
 
-        // for (const Location& court : badmintonCourts) {
-        //     court.display();
-        //     double distance = haversine(lat, lon, court.getLatitude(), court.getLongitude());
-        //     std::cout << "Distance to court "<<  <<": " << distance << " km" << std::endl;
-        // }
+        for (const Location& court : badmintonCourts) {
+            double distance = haversine(lat, lon, court.getLatitude(), court.getLongitude());
+            std::cout << "Distance to court "<< court.getAddress() <<" : " << distance << " km" << std::endl;
+        }
     }
     return 0;
 }
