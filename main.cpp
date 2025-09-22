@@ -13,6 +13,7 @@ class Location {
     Location(double latitude, double longitude)
         : address("Unknown"), latitude(latitude), longitude(longitude) {}
 
+    std::string getAddress() const { return address; }
     double getLatitude() const { return latitude; }
     double getLongitude() const { return longitude; }
 
@@ -78,8 +79,8 @@ int main() {
 
         // for (const Location& court : badmintonCourts) {
         //     court.display();
-        //     double distance = haversine(lat, lon, court.latitude, court.longitude);
-        //     std::cout << "Distance to court: " << distance << " km" << std::endl;
+        //     double distance = haversine(lat, lon, court.getLatitude(), court.getLongitude());
+        //     std::cout << "Distance to court "<<  <<": " << distance << " km" << std::endl;
         // }
     }
     return 0;
