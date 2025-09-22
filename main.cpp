@@ -72,6 +72,7 @@ int main() {
     while (programRunning) {
         double lat, lon;
         Location nearestCourt;
+        double minDistance = std::numeric_limits<double>::max();
         std::cout << "Enter latitude and longitude (or 'q' to quit): ";
         std::cin >> lat >> lon;
 
@@ -85,7 +86,13 @@ int main() {
         for (const Location& court : badmintonCourts) {
             double distance = haversine(lat, lon, court.getLatitude(), court.getLongitude());
             std::cout << "Distance to court "<< court.getAddress() <<" : " << distance << " km" << std::endl;
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestCourt = court;
+            }
         }
+        std::cout << "\nNearest court is at: " << nearestCourt.getAddress() << " which is " << minDistance << " km away." << std::endl;
+        std::cout << "----------------------------------------" << std::endl;
     }
     return 0;
 }
